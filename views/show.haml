@@ -1,0 +1,21 @@
+!!!
+%html
+  %head
+    %title Postali :: #{@code}
+  %body
+    %h1 Código Postal #{@code}
+    %h2 Estado:
+    %p
+      Clave: #{@state[:id]}
+    %p
+      Nombre: #{@state[:name]}
+    %h2 Municipio:
+    %p
+      Clave: #{@municipality[:id]}
+    %p
+      Nombre: #{@municipality[:name]}
+    %h2 Colonia(s)
+    %p
+      %ul
+        - @blocks.each do |b|
+          %li= b

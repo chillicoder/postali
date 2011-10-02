@@ -4,35 +4,6 @@ require "sinatra/redis"
 require "haml"
 require "json"
 
-puts redis.del "foos"
-puts redis.rpush "foos", "redis"
-puts redis.rpush "foos", "is"
-puts redis.rpush "foos", "sweet!"
-
-# 83000 CP
-code = {
-  :state => { :id => 26, :name => 'Sonora' },
-  :municipality => { :id => '030', :name => 'Hermosillo' },
-  :blocks => ['Hermosillo Centro', 'Centro Norte', 'Centro Oriente'] # set
-}
-
-puts redis.del "83000:blocks"
-puts redis.sadd "83000:blocks", "Hermosillo Centro"
-puts redis.sadd "83000:blocks", "Centro Norte"
-puts redis.sadd "83000:blocks", "Centro Oriente"
-
-puts redis.del "83000:state:id"
-puts redis.set "83000:state:id", "26"
-
-puts redis.del "83000:state:name"
-puts redis.set "83000:state:name", "Sonora"
-
-puts redis.del "83000:municipality:id"
-puts redis.set "83000:municipality:id", "030"
-
-puts redis.del "83000:municipality:name"
-puts redis.set "83000:municipality:name", "Hermosillo"
-
 get "/" do
   @public = settings.port
   @req = request.env
@@ -53,6 +24,9 @@ get "/q/:code.json" do
 
   # blocks
   result[:blocks] = blocks(code)
+
+  # increment query counter
+  redis.incr "#{code}:counter"
 
   JSON.generate(result)
 

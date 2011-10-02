@@ -1,0 +1,9 @@
+Postali
+
+Es un ejercicio simple con Sinatra y Redis.
+
+La idea es un servicio para consultar códigos postales de México basado de una manera muy simple y directa.
+
+Y en ese espíritu de simplicidad escogí Sinatra y Redis para el efecto.
+
+
